@@ -1,4 +1,4 @@
-# Integrated Metagenomics Analysis 
+#Integrated Metagenomics Analysis 
 This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner 
 
 ## For a project of interest:
