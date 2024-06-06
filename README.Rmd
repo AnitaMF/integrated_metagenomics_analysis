@@ -1,0 +1,15 @@
+ This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner 
+
+For a project of interest:
+ 1) download metadata from SRA Run Selector 
+ 2) download all genomic files of project from NCBI
+ 3) Run QC analysis using fastqc and Seqkit 
+ 4) Perform host-decontamination using Bowtie 
+ 5) Taxonomic classification using Kraken algorithm
+ 6) Estimate relative abundances using Bracken algorithm 
+ 7) Analysis of taxonomic results (python based):
+    a) read counts to frequencies 
+    b) rarefaction curves 
+    c) data distribution visualizations and transformations
+    d) Diversity metrics
+    e) Analysis of differentially abundant bacteria
