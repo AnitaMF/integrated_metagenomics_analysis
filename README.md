@@ -6,7 +6,7 @@ This is a tool that integrates all steps required for taxonomic analysis of meta
 
 [Metagenomics](https://en.wikipedia.org/wiki/Metagenomics) is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) and [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
 
-However, the process of analyzing metagenomic data involves multiple complex and time-consuming steps. These include downloading data, quality control, host decontamination, taxonomic classification, and downstream analysis. The Integrated Metagenomics Analysis Pipeline is designed to streamline these steps, offering a fully automated solution for comprehensive metagenomic analysis.
+However, the process of analyzing metagenomic data involves multiple complex and time-consuming steps. These include downloading data, quality control, host decontamination, taxonomic classification, and downstream analysis. The **Integrated Metagenomics Analysis Pipeline** is designed to streamline these steps (after data acquisition), offering a fully automated solution for comprehensive metagenomic analysis.
 
 
 ## Generating Data
@@ -56,40 +56,64 @@ Once the taxonomic classification is complete, we will perform a comprehensive a
 View complete matrix output file: [matrix.txt](readCount.txt)
 
 - **Read Counts to Frequencies**: Converting raw read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
-- **Rarefaction Curves**: Generating rarefaction curves to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
+- **Rarefaction Curves**: Generating [rarefaction curves](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.4363#:~:text=Rarefaction%20curves%20estimate%20the%20expected,1971%3B%20Sanders%2C%201968).) to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
 - **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
-- **Diversity Metrics**: Calculating diversity metrics such as alpha diversity (within-sample diversity) and beta diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
+- **Diversity Metrics**: Calculating diversity metrics such as [alpha](https://docs.onecodex.com/en/articles/4136553-alpha-diversity) diversity (within-sample diversity) and [beta](https://www.statisticshowto.com/bray-curtis-dissimilarity/) diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
 
 # Pipeline Summary steps 
 ## For a project of interest this pipeline will:
-1. Download metadata from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
-2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra) based on metadata (step 1)
+1. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
+2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra) based on  step 1
 3. Run QC analysis using [FastQC](https://github.com/s-andrews/FastQC)- this step will be depedent on the needs of your files 
 4. Perform host-decontamination using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/index.shtml) 
 5. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
 6. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
 7. Analysis of taxonomic results (Python-based):
+    - merge results files 
     - Read counts to frequencies 
     - Rarefaction curves 
     - Data distribution visualizations and transformations
     - Diversity metrics
 
-###  Instructions
+###  Getting ready:
 1. install dependencies 
-    pip install -r requirements.txt
+
+```sh
+pip install -r requirements.txt
+``` 
 2. download code: 
+```sh
+download_files.py
 
-    download_files.py
+preProcessing_files.py 
 
-    preProcessing_files.py 
-
-    taxonomicAalysis.py
-
+taxonomicAalysis.py
+```
 3. Run tests with pytest: 
-    pytest 
+```sh
+pytest 
+```
+**Work in progress**: Soon detailed instruction for each step will be added & appropiate code for each section of the pipeline 
 
-Detailed instruction for each step will be added
+### Running instructions: 
 
+For examplify the use of this pipeline we will run all the steps for the following project: 
+
+    PRJNA664754
+0. Create a directory to store all files and code 
+```sh
+mkdir integrated_analysis    
+```
+1. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/)
+
+a. Search for accesion list of project: Write project name and click on **search** 
+![search](searchAccesion.PNG)
+b. Click on "Acession list" to download a txt file containing the names of all the files in the project ![click](clickAcession.PNG) 
+c. Move file into "integrated_analysis" folder and file name to "accession_list.txt"
+View [accession list](SRR_Acc_List.txt) file
+
+2. Download all fastq files of project 
+a. Download [**SRA-toolkit**](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolki)
 
 > This project was originally implemented as part of the [Python programming course](https://github.com/szabgab/wis-python-course-2024-04)
 > at the [Weizmann Institute of Science](https://www.weizmann.ac.il/) taught by [Gabor Szabo](https://szabgab.com/)
