@@ -40,16 +40,18 @@ To determine the species present, we will use the [Kraken algorithm](https://ccb
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 ![kraken output](kraken_output.png)
-View [sample.k2report](SRR14291145.k2report): kraken output example
+View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
 
 Using the **sample.k2report output from Kraken**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 ![braken output](bracken_output.png)
-View complete [sample.bracken](SRR14291145.bracken): braken output example
+View complete braken output file: [sample.bracken](SRR14291145.bracken)
 ### (3) Analysis of Taxonomic Results (Python-based)
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
 
-- **Merge all samples into one matrix**
+- **Merge all samples into one matrix**: for all downstream analysis we want to create one table/matrix that contains the taxonomic classification results of all samples in the project. The table dimensions are species x # of samples
+![matrix](matrix.png)
+View complete matrix output file: [matrix.txt](readCount.txt)
 
 - **Read Counts to Frequencies**: Converting raw read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
 - **Rarefaction Curves**: Generating rarefaction curves to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
