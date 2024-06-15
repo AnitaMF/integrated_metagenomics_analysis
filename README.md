@@ -25,14 +25,10 @@ To generate metagenomic data:
 
 ![Workflow](workflow.png)
 
-###  (1) pre-processing 
-Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. Before this analysis, pre-processing of the sequencing reads is necessary:
+###  (1) Download data (optional) 
+ **Download Data/Produce Your Own Data**
 
-0. **Download Data/Produce Your Own Data**
-1. **Quality Control**: Ensuring data integrity and suitability for analysis.
-2. **Host Decontamination**: Removing any host DNA contamination to focus on microbial sequences.
-
-**Note**: Host decontamination depends on the source of the sample. For example, if the samples are from the human gut microbiome (stool samples representing the gut community), we will remove all human sequences found in the sequencing data, as the human DNA represents the "host" of the microbial community.
+Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
 
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
 
@@ -60,15 +56,13 @@ View complete matrix output file: [matrix.txt](readCount.txt)
 - **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
 - **Diversity Metrics**: Calculating diversity metrics such as [alpha](https://docs.onecodex.com/en/articles/4136553-alpha-diversity) diversity (within-sample diversity) and [beta](https://www.statisticshowto.com/bray-curtis-dissimilarity/) diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
 
-# Pipeline Summary steps 
+# Pipeline Summary 
 ## For a project of interest this pipeline will:
 1. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
-2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra) based on  step 1
-3. Run QC analysis using [FastQC](https://github.com/s-andrews/FastQC)- this step will be depedent on the needs of your files 
-4. Perform host-decontamination using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/index.shtml) 
-5. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
-6. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
-7. Analysis of taxonomic results (Python-based):
+2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra)
+3. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
+4. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
+5. Analysis of taxonomic results (Python-based):
     - merge results files 
     - Read counts to frequencies 
     - Rarefaction curves 
@@ -83,11 +77,7 @@ pip install -r requirements.txt
 ``` 
 2. download code: 
 ```sh
-download_files.py
-
-preProcessing_files.py 
-
-taxonomicAalysis.py
+taxonomicAnalysis.py
 ```
 3. Run tests with pytest: 
 ```sh
@@ -100,20 +90,43 @@ pytest
 For examplify the use of this pipeline we will run all the steps for the following project: 
 
     PRJNA664754
-0. Create a directory to store all files and code 
+
+Create a directory to store all files and code 
 ```sh
 mkdir integrated_analysis    
 ```
+
+#### Step 0: download data 
+**OPTIONAL**: This step is optional and not automated- If you have your own data already proceed to step 1
+
 1. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/)
 
 a. Search for accesion list of project: Write project name and click on **search** 
 ![search](searchAccesion.PNG)
 b. Click on "Acession list" to download a txt file containing the names of all the files in the project ![click](clickAcession.PNG) 
-c. Move file into "integrated_analysis" folder and file name to "accession_list.txt"
+c. Move file into "integrated_analysis" folder and change file-name to "accession_list.txt"
+
 View [accession list](SRR_Acc_List.txt) file
 
 2. Download all fastq files of project 
+
 a. Download [**SRA-toolkit**](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolki)
+b. Download files: 
+```sh
+prefetch --option-file accession_list.txt
+```
+#### Step 1: taxonomic classification 
+
+0. (Inside integrated_analysis folder) Create a new folder "fastq" and move all fastq files 
+
+```sh
+mkdir fastq 
+mv *.fastq.gz fastq
+```
+
+1. Download kraken to integrated_analysis folder 
+
+./install_kraken.sh . 
 
 > This project was originally implemented as part of the [Python programming course](https://github.com/szabgab/wis-python-course-2024-04)
 > at the [Weizmann Institute of Science](https://www.weizmann.ac.il/) taught by [Gabor Szabo](https://szabgab.com/)
