@@ -4,42 +4,81 @@ This is a tool that integrates all steps required for taxonomic analysis of meta
 
 ##  Project Introduction
 
-Metagenomics is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) and [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
-
-## Generating data 
-![](/generating_data.PNG)
-
-
-
-## Analyzing metagenomic data 
+[Metagenomics](https://en.wikipedia.org/wiki/Metagenomics) is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) and [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
 
 However, the process of analyzing metagenomic data involves multiple complex and time-consuming steps. These include downloading data, quality control, host decontamination, taxonomic classification, and downstream analysis. The Integrated Metagenomics Analysis Pipeline is designed to streamline these steps, offering a fully automated solution for comprehensive metagenomic analysis.
 
 
-After 
+## Generating Data
+![Generating Data](/generating_data.PNG)
+
+To generate metagenomic data:
+1. **DNA Extraction**: DNA is isolated from the sample.
+2. **DNA Fragmentation**: The DNA is broken into smaller pieces, called reads.
+3. **Sequencing**: The reads are sequenced using Next-Generation Sequencing (NGS) techniques, producing a large volume of sequence data that represents the sample's genetic diversity.
+
+**Next-Generation Sequencing (NGS)** technologies enable high-throughput sequencing, allowing millions of DNA fragments to be sequenced simultaneously. This capability is essential for metagenomic studies, which aim to analyze the vast and diverse microbial populations in complex samples.
+
+**Note**: This pipeline includes a step for downloading publicly available data from SRA, but it can also be used with your own data.
+
+## Analyzing Metagenomic Data
+
+###  (1) pre-processing 
+Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. Before this analysis, pre-processing of the sequencing reads is necessary:
+
+0. **Download Data/Produce Your Own Data**
+1. **Quality Control**: Ensuring data integrity and suitability for analysis.
+2. **Host Decontamination**: Removing any host DNA contamination to focus on microbial sequences.
+**Note**: Host decontamination depends on the source of the sample. For example, if the samples are from the human gut microbiome (stool samples representing the gut community), we will remove all human sequences found in the sequencing data, as the human DNA represents the "host" of the microbial community.
+
+### (2) Taxonomic Classification: What Microorganisms Are Present?
+
+**Note**: We can assess the presence of species, genus, families, and other taxonomic levels. For simplicity, we will focus on species.
+
+To determine the species present, we will use the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html), a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. Kraken achieves this by using exact k-mer matches to a database of known genomes, enabling rapid and sensitive identification of the taxa present in the sample.
+
+Kraken works as follows:
+1. **Database Construction**: Kraken builds a database from a set of reference genomes. This database contains k-mers (short DNA sequences of length k) and their associated taxonomic labels.
+   **Note**: We will use available k-mer databases.
+2. **Classification**: For each read in the metagenomic data, Kraken searches for k-mers that match those in the database. It then assigns the read to the most specific taxonomic label that contains all the matching k-mers.
+3. **Output**: Kraken provides a detailed report of the taxonomic composition of the sample, listing the taxa identified. The main output is a table/matrix for each sample, containing the number of reads that match each of the microorganisms found.
+
+Kraken's approach allows for the classification of millions of reads in a matter of minutes, making it ideal for handling the large datasets typical of metagenomic studies. By using Kraken, we can quickly and accurately identify the species present in our samples, laying the foundation for subsequent analyses of community structure and function.
+
+Using the **Kraken output**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
+
+### (3) Analysis of Taxonomic Results (Python-based)
+
+Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
+
+- **Read Counts to Frequencies**: Converting raw read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
+- **Rarefaction Curves**: Generating rarefaction curves to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
+- **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
+- **Diversity Metrics**: Calculating diversity metrics such as alpha diversity (within-sample diversity) and beta diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
+
+# USAGE
 ## For a project of interest this pipeline will:
 1. Download metadata from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
 2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra) based on metadata (step 1)
 3. Run QC analysis using [FastQC](https://github.com/s-andrews/FastQC) and [Seqkit](https://github.com/shenwei356/seqkit/releases) - this step will be depedent on the needs of your files 
 4. Perform host-decontamination using Bowtie 
-5. Taxonomic classification using Kraken algorithm
-6. Estimate relative abundances using Bracken algorithm 
+5. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
+6. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
 7. Analysis of taxonomic results (Python-based):
     - Read counts to frequencies 
     - Rarefaction curves 
     - Data distribution visualizations and transformations
     - Diversity metrics
-    - Analysis of differentially abundant bacteria
 
-### Usage: 
-
+###  Instructions
 1. install dependencies 
     pip install -r requirements.txt
-2. download code 
+2. download code
+
+3. Run tests with pytest: 
+    pytest 
 
 
-
-## What is metagenomics data? 
 
 > This project was originally implemented as part of the [Python programming course](https://github.com/szabgab/wis-python-course-2024-04)
 > at the [Weizmann Institute of Science](https://www.weizmann.ac.il/) taught by [Gabor Szabo](https://szabgab.com/)
