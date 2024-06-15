@@ -29,24 +29,22 @@ Once we have the sequences, the goal is to identify the microorganisms present i
 0. **Download Data/Produce Your Own Data**
 1. **Quality Control**: Ensuring data integrity and suitability for analysis.
 2. **Host Decontamination**: Removing any host DNA contamination to focus on microbial sequences.
+
 **Note**: Host decontamination depends on the source of the sample. For example, if the samples are from the human gut microbiome (stool samples representing the gut community), we will remove all human sequences found in the sequencing data, as the human DNA represents the "host" of the microbial community.
 
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
 
 **Note**: We can assess the presence of species, genus, families, and other taxonomic levels. For simplicity, we will focus on species.
 
-To determine the species present, we will use the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html), a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. Kraken achieves this by using exact k-mer matches to a database of known genomes, enabling rapid and sensitive identification of the taxa present in the sample.
+To determine the species present, we will use the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html), a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
 
-Kraken works as follows:
-1. **Database Construction**: Kraken builds a database from a set of reference genomes. This database contains k-mers (short DNA sequences of length k) and their associated taxonomic labels.
-   **Note**: We will use available k-mer databases.
-2. **Classification**: For each read in the metagenomic data, Kraken searches for k-mers that match those in the database. It then assigns the read to the most specific taxonomic label that contains all the matching k-mers.
-3. **Output**: Kraken provides a detailed report of the taxonomic composition of the sample, listing the taxa identified. The main output is a table/matrix for each sample, containing the number of reads that match each of the microorganisms found.
+**Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 
-Kraken's approach allows for the classification of millions of reads in a matter of minutes, making it ideal for handling the large datasets typical of metagenomic studies. By using Kraken, we can quickly and accurately identify the species present in our samples, laying the foundation for subsequent analyses of community structure and function.
+[View sample.k2report kraken output example](SRR14291145.k2report)
 
-Using the **Kraken output**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
+Using the **sample.k2report output from Kraken**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 
+[View bracken output example]()
 ### (3) Analysis of Taxonomic Results (Python-based)
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
