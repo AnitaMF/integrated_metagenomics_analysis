@@ -40,14 +40,18 @@ To determine the species present, we will use the [Kraken algorithm](https://ccb
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 
-[View sample.k2report kraken output example](SRR14291145.k2report)
+View [sample.k2report](SRR14291145.k2report): kraken output example
 
 Using the **sample.k2report output from Kraken**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 
-[View bracken output example]()
+![kraken output](kraken_output.png)
+
+View [sample.bracken](SRR14291145.bracken): braken output example
 ### (3) Analysis of Taxonomic Results (Python-based)
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
+
+- **Merge all samples into one matrix**
 
 - **Read Counts to Frequencies**: Converting raw read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
 - **Rarefaction Curves**: Generating rarefaction curves to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
