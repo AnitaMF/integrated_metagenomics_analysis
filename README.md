@@ -23,6 +23,8 @@ To generate metagenomic data:
 
 ## Analyzing Metagenomic Data
 
+![Workflow](workflow.png)
+
 ###  (1) pre-processing 
 Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. Before this analysis, pre-processing of the sequencing reads is necessary:
 
@@ -58,12 +60,12 @@ View complete matrix output file: [matrix.txt](readCount.txt)
 - **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
 - **Diversity Metrics**: Calculating diversity metrics such as alpha diversity (within-sample diversity) and beta diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
 
-# USAGE
+# Pipeline Summary steps 
 ## For a project of interest this pipeline will:
 1. Download metadata from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
 2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra) based on metadata (step 1)
-3. Run QC analysis using [FastQC](https://github.com/s-andrews/FastQC) and [Seqkit](https://github.com/shenwei356/seqkit/releases) - this step will be depedent on the needs of your files 
-4. Perform host-decontamination using Bowtie 
+3. Run QC analysis using [FastQC](https://github.com/s-andrews/FastQC)- this step will be depedent on the needs of your files 
+4. Perform host-decontamination using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/index.shtml) 
 5. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
 6. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
 7. Analysis of taxonomic results (Python-based):
@@ -75,11 +77,18 @@ View complete matrix output file: [matrix.txt](readCount.txt)
 ###  Instructions
 1. install dependencies 
     pip install -r requirements.txt
-2. download code
+2. download code: 
+
+    download_files.py
+
+    preProcessing_files.py 
+
+    taxonomicAalysis.py
 
 3. Run tests with pytest: 
     pytest 
 
+Detailed instruction for each step will be added
 
 
 > This project was originally implemented as part of the [Python programming course](https://github.com/szabgab/wis-python-course-2024-04)
