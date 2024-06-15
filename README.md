@@ -39,14 +39,12 @@ Once we have the sequences, the goal is to identify the microorganisms present i
 To determine the species present, we will use the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html), a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
-
+![kraken output](kraken_output.png)
 View [sample.k2report](SRR14291145.k2report): kraken output example
 
 Using the **sample.k2report output from Kraken**, we will run the [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
-
-![kraken output](kraken_output.png)
-
-View [sample.bracken](SRR14291145.bracken): braken output example
+![braken output](bracken_output.png)
+View complete [sample.bracken](SRR14291145.bracken): braken output example
 ### (3) Analysis of Taxonomic Results (Python-based)
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
