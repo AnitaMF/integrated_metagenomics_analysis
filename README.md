@@ -77,7 +77,7 @@ pip install -r requirements.txt
 ``` 
 2. download code: 
 ```sh
-taxonomicAnalysis.py
+python taxonomicAnalysis.py
 ```
 3. Run tests with pytest: 
 ```sh
@@ -126,6 +126,7 @@ mv *.fastq.gz fastq
 ```
 
 1. Download kraken to integrated_analysis folder: [link](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown) 
+
 Or use: 
 ```sh
 mkdir kraken
@@ -137,12 +138,12 @@ cd kraken
 ```sh
 wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20240112.tar.gz 
 
-
 tar -xzvf k2_standard_20240112.tar.gz
 ```
 3. Run kraken on all samples: 
 
 a. For paired samples:
+
 **Note**: Make sure the names of R1 and R2 have the following format: name_1_.fastq.gz and  name_2_.fastq.gz
 
 ```sh
