@@ -111,22 +111,45 @@ View [accession list](SRR_Acc_List.txt) file
 2. Download all fastq files of project 
 
 a. Download [**SRA-toolkit**](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolki)
+
 b. Download files: 
 ```sh
 prefetch --option-file accession_list.txt
 ```
 #### Step 1: taxonomic classification 
 
-0. (Inside integrated_analysis folder) Create a new folder "fastq" and move all fastq files 
+0. Create a new folder "fastq" (Inside integrated_analysis folder) and move all fastq files 
 
 ```sh
 mkdir fastq 
 mv *.fastq.gz fastq
 ```
 
-1. Download kraken to integrated_analysis folder 
+1. Download kraken to integrated_analysis folder: [link](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown) 
+Or use: 
+```sh
+mkdir kraken
+cd kraken 
+./install_kraken2.sh 
+```
 
-./install_kraken.sh . 
+2. Download database & unpack (inside kraken folder): this one has been updated in 2024
+```sh
+wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20240112.tar.gz 
+
+
+tar -xzvf k2_standard_20240112.tar.gz
+```
+3. Run kraken on all samples: 
+
+a. For paired samples:
+**Note**: Make sure the names of R1 and R2 have the following format: name_1_.fastq.gz and  name_2_.fastq.gz
+
+```sh
+?? kraken_loop_paired.sh 
+```
+
+
 
 > This project was originally implemented as part of the [Python programming course](https://github.com/szabgab/wis-python-course-2024-04)
 > at the [Weizmann Institute of Science](https://www.weizmann.ac.il/) taught by [Gabor Szabo](https://szabgab.com/)
