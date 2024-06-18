@@ -1,7 +1,7 @@
 # Integrated Metagenomics Analysis 
 
 This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner.
- 
+
 **Input**: taxonomy tables from kraken&braken taxonomy classifier algorithms 
 
 ##  Project Introduction
@@ -60,15 +60,15 @@ View complete matrix output file: [matrix.txt](readCount.txt)
 # Pipeline Summary 
 Analysis of taxonomic results:
 
-    - merge results files 
+- merge results files 
 
-    - Read counts to frequencies 
+- Read counts to frequencies 
 
-    - Rarefaction curves 
+- Rarefaction curves 
 
-    - Data distribution visualizations and transformations
+- Data distribution visualizations and transformations
 
-    - Diversity metrics
+- Diversity metrics
 
 ###  Getting ready:
 1. install dependencies 
