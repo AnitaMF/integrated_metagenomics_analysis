@@ -80,7 +80,7 @@ pip install -r requirements.txt
 ```sh
 pytest 
 ```
-3. download code & run: 
+3.Run program: 
 ```sh
 python taxonomicAnalysis.py
 ```
