@@ -9,10 +9,11 @@ This is a tool that integrates all steps required for taxonomic analysis of meta
 
 However, the process of analyzing taxonomic data involves multiple complex and time-consuming steps and there is currently no standard protocol. **The Integrated Metagenomics Analysis Pipeline** is designed to streamline downstream analysis of taxonomy offering a solution for comprehensive metagenomic analysis. 
 
-**Note**: there is a section at the end that explains in detail how to get taxonomy tables from metagenomic data. It includes all steps from downloading publicaly available data from SRA & classifying reads into taxonomic profiles 
+**Note**: There is a section at the end that explains in detail how to get taxonomy tables from metagenomic data. It includes all steps from downloading publicly available data from SRA & classifying reads into taxonomic profiles.
 
 ## Up-stream steps
-### (1) Generating Data
+### (1) Generating Data: Produce Your Own Data/Download Data
+
 ![Generating Data](/generating_data.PNG)
 
 To generate metagenomic data:
@@ -24,14 +25,29 @@ To generate metagenomic data:
 
 ![Workflow](workflow.png)
 
-### (2)  Download Data/Produce Your Own Data
 
-### (3) Taxonomic Classification: What Microorganisms Are Present?
+### (2) Taxonomic Classification: What Microorganisms Are Present?
+Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
+
+To determine the species present the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html) is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
+
+a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
+
+**Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
+![kraken output](kraken_output.png)
+View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
+
+b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
+
+Using the **sample.k2report output from Kraken**, [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
+![braken output](bracken_output.png)
+View complete braken output file: [sample.bracken](SRR14291145.bracken)
+
 
 ## Down-stream steps
 ## **Integrated Metagenomics Analysis Pipeline**
 
-### (4) Analysis of Taxonomic Results 
+### Analysis of Taxonomic Results 
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python based tool. This analysis includes:
 
@@ -71,36 +87,7 @@ pytest
 # Instructions for up-stream steps: 
 
 
-## Steps previous to the utilization of this pipeline: 
-
-For a given project: 
-###  (1) Download data (optional) 
- **Download Data/Produce Your Own Data**
-
-Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
-
-a. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
-b. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra)
-
-### (2) Taxonomic Classification: What Microorganisms Are Present?
-
-To determine the species present the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html) is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
-
-a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
-
-**Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
-![kraken output](kraken_output.png)
-View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
-
-b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
-
-Using the **sample.k2report output from Kraken**, [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
-![braken output](bracken_output.png)
-View complete braken output file: [sample.bracken](SRR14291145.bracken)
-
-
-## Detailed explanation
-
+## Detailed instructions for steps previous to the utilization of this pipeline: 
 ### Example of Running instructions: 
 
 To examplify we will run all the steps for the following project: 
