@@ -76,13 +76,13 @@ Analysis of taxonomic results:
 ```sh
 pip install -r requirements.txt
 ``` 
-2. download code: 
-```sh
-python taxonomicAnalysis.py
-```
-3. Run tests with pytest: 
+2. Run tests with pytest: 
 ```sh
 pytest 
+```
+3. download code & run: 
+```sh
+python taxonomicAnalysis.py
 ```
 **Work in progress**: Soon detailed instruction for each step will be added & appropiate code for each section of the pipeline 
 
