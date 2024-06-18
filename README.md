@@ -29,13 +29,13 @@ To generate metagenomic data:
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
 Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
 
-a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html): To determine the species present the *Kraken algorithm* is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
+a. **Taxonomic classification using** [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html): To determine the species present the *Kraken algorithm* is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 ![kraken output](kraken_output.png)
 View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
 
-b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken): Using the **sample.k2report output from Kraken**, *Bracken algorithm*, which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
+b. **Re-estimate read counts using** [Bracken algorithm](https://github.com/jenniferlu717/Bracken): Using the **sample.k2report output from Kraken**, *Bracken algorithm*, which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 ![braken output](bracken_output.png)
 View complete braken output file: [sample.bracken](SRR14291145.bracken)
 
@@ -47,21 +47,26 @@ View complete braken output file: [sample.bracken](SRR14291145.bracken)
 
 Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python based tool. This analysis includes:
 
-- **Merge all samples into one matrix**: for all downstream analysis we want to create one table/matrix that contains the taxonomic classification results of all samples in the project. The table dimensions are species x # of samples
+- **Merge all samples into one matrix**: Using the **sample.bracken output files from bracken** we will create one table/matrix that contains the taxonomic classification results of all samples in the project for all downstream analysis. The table dimensions are species x # of samples
 ![matrix](matrix.png)
 View complete matrix output file: [matrix.txt](readCount.txt)
 
-- **Read Counts to Frequencies**: Converting raw read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
-- **Rarefaction Curves**: Generating [rarefaction curves](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.4363#:~:text=Rarefaction%20curves%20estimate%20the%20expected,1971%3B%20Sanders%2C%201968).) to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
+- **Read Counts to Frequencies**: Converting matrix of read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
+- **Rarefaction Curves**: Generating [rarefaction curves](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.4363#:~:text=Rarefaction%20curves%20estimate%20the%20expected,1971%3B%20Sanders%2C%201968) to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
 - **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
 - **Diversity Metrics**: Calculating diversity metrics such as [alpha](https://docs.onecodex.com/en/articles/4136553-alpha-diversity) diversity (within-sample diversity) and [beta](https://www.statisticshowto.com/bray-curtis-dissimilarity/) diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
 
 # Pipeline Summary 
 Analysis of taxonomic results:
+
     - merge results files 
+
     - Read counts to frequencies 
+
     - Rarefaction curves 
+
     - Data distribution visualizations and transformations
+
     - Diversity metrics
 
 ###  Getting ready:
@@ -80,8 +85,8 @@ pytest
 ```
 **Work in progress**: Soon detailed instruction for each step will be added & appropiate code for each section of the pipeline 
 
-# Instructions for up-stream steps: 
 
+# Instructions for up-stream steps: 
 
 ## Detailed instructions for steps previous to the utilization of this pipeline: 
 ### Example of Running instructions: 
