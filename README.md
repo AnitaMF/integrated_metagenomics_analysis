@@ -1,16 +1,15 @@
 # Integrated Metagenomics Analysis 
 
 This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner 
+**Input**: taxonomy tables from kraken&braken taxonomy classifier algorithms 
 
 ##  Project Introduction
 
 [Metagenomics](https://en.wikipedia.org/wiki/Metagenomics) is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) and [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
 
-However, the process of analyzing taxonomic data involves multiple complex and time-consuming steps and there is currently no standard protocol. The **Integrated Metagenomics Analysis Pipeline** is designed to streamline downstream analysis of taxonomy offering a solution for comprehensive metagenomic analysis from taxonomic classification (see explanation below) to diversity metrics. 
+However, the process of analyzing taxonomic data involves multiple complex and time-consuming steps and there is currently no standard protocol. **The Integrated Metagenomics Analysis Pipeline** is designed to streamline downstream analysis of taxonomy offering a solution for comprehensive metagenomic analysis. 
 
-**Input**: taxonomy tables from kraken&braken taxonomy classifier algorithms 
-
-**Note**: there is a section at the end that explains in detail how to get taxonomy tables from metagenomic data. It includes all steps from downloading publicaly available data from SRA  
+**Note**: there is a section at the end that explains in detail how to get taxonomy tables from metagenomic data. It includes all steps from downloading publicaly available data from SRA & classifying reads into taxonomic profiles 
 
 ## Up-stream steps
 ### (1) Generating Data
@@ -26,12 +25,15 @@ To generate metagenomic data:
 ![Workflow](workflow.png)
 
 ### (2)  Download Data/Produce Your Own Data
-### (3) Taxonomic Classification: What Microorganisms Are Present?
-    
-    **Integrated Metagenomics Analysis Pipeline**
-### (4) Analysis of Taxonomic Results (Python-based)
 
-Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python. This analysis includes:
+### (3) Taxonomic Classification: What Microorganisms Are Present?
+
+## Down-stream steps
+## **Integrated Metagenomics Analysis Pipeline**
+
+### (4) Analysis of Taxonomic Results 
+
+Once the taxonomic classification is complete, we will perform a comprehensive analysis of the results using Python based tool. This analysis includes:
 
 - **Merge all samples into one matrix**: for all downstream analysis we want to create one table/matrix that contains the taxonomic classification results of all samples in the project. The table dimensions are species x # of samples
 ![matrix](matrix.png)
@@ -66,33 +68,42 @@ pytest
 ```
 **Work in progress**: Soon detailed instruction for each step will be added & appropiate code for each section of the pipeline 
 
+# Instructions for up-stream steps: 
 
-Steps previous to the utilization of these pipeline: 
-## For a project of interest this pipeline will:
-1. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
-2. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra)
-3. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
-4. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
 
+## Steps previous to the utilization of this pipeline: 
+
+For a given project: 
 ###  (1) Download data (optional) 
  **Download Data/Produce Your Own Data**
 
 Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
 
+a. Download accesion list from [SRA Run Selector](https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/) 
+b. Download all genomic files of project from [SRA](https://www.ncbi.nlm.nih.gov/sra)
+
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
 
 To determine the species present the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html) is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
+
+a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 ![kraken output](kraken_output.png)
 View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
 
+b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
+
 Using the **sample.k2report output from Kraken**, [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 ![braken output](bracken_output.png)
 View complete braken output file: [sample.bracken](SRR14291145.bracken)
-### Running instructions: 
 
-For examplify the use of this pipeline we will run all the steps for the following project: 
+
+## Detailed explanation
+
+### Example of Running instructions: 
+
+To examplify we will run all the steps for the following project: 
 
     PRJNA664754
 
