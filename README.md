@@ -29,17 +29,13 @@ To generate metagenomic data:
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
 Once we have the sequences, the goal is to identify the microorganisms present in the community and determine the proportions of each organism within the sample, approximating their abundances in the community. 
 
-To determine the species present the [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html) is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
-
-a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html)
+a. Taxonomic classification using [Kraken algorithm](https://ccb.jhu.edu/software/kraken/MANUAL.html): To determine the species present the *Kraken algorithm* is a highly accurate and efficient tool for assigning taxonomic labels to metagenomic DNA sequences. 
 
 **Kraken Output**: Kraken generates a detailed report of the taxonomic composition of the sample by counting the number of reads that match each species in a provided database. The main output is a table/matrix for each sample, listing the number of reads corresponding to each identified microorganism.
 ![kraken output](kraken_output.png)
 View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
 
-b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken) 
-
-Using the **sample.k2report output from Kraken**, [Bracken algorithm](https://github.com/jenniferlu717/Bracken), which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
+b. Re-estimate read counts using [Bracken algorithm](https://github.com/jenniferlu717/Bracken): Using the **sample.k2report output from Kraken**, *Bracken algorithm*, which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 ![braken output](bracken_output.png)
 View complete braken output file: [sample.bracken](SRR14291145.bracken)
 
