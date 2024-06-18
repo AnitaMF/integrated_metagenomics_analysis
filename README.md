@@ -1,6 +1,7 @@
 # Integrated Metagenomics Analysis 
 
-This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner 
+This is a tool that integrates all steps required for taxonomic analysis of metagenomic data in an automated manner.
+ 
 **Input**: taxonomy tables from kraken&braken taxonomy classifier algorithms 
 
 ##  Project Introduction
