@@ -1,1 +1,6 @@
-#install libraries
+# Install the requiered libraries 
+argparse
+pandas
+numpy
+matplotlib
+scipy

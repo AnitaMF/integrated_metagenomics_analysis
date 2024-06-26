@@ -38,7 +38,7 @@ View a complete kraken output file: [sample.k2report](SRR14291145.k2report)
 
 b. **Re-estimate read counts using** [Bracken algorithm](https://github.com/jenniferlu717/Bracken): Using the **sample.k2report output from Kraken**, *Bracken algorithm*, which uses Bayes' theorem to re-estimate the number of reads that match a species. This step is necessary because some reads will match more than one species.
 ![braken output](bracken_output.png)
-View complete braken output file: [sample.bracken](SRR14291145.bracken)
+View complete braken output file: [sample.breport](SRR14291145.breport)
 
 
 ## Down-stream steps
@@ -51,40 +51,85 @@ Once the taxonomic classification is complete, we will perform a comprehensive a
 - **Merge all samples into one matrix**: Using the **sample.bracken output files from bracken** we will create one table/matrix that contains the taxonomic classification results of all samples in the project for all downstream analysis. The table dimensions are species x # of samples
 ![matrix](matrix.png)
 View complete matrix output file: [matrix.txt](readCount.txt)
-
 - **Read Counts to Frequencies**: Converting matrix of read counts into relative frequencies to account for differences in sequencing depth across samples. This normalization allows for more accurate comparisons between samples.
-- **Rarefaction Curves**: Generating [rarefaction curves](https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.4363#:~:text=Rarefaction%20curves%20estimate%20the%20expected,1971%3B%20Sanders%2C%201968) to assess the adequacy of sequencing depth. These curves help determine if the sampling effort has been sufficient to capture the diversity present in the samples.
-- **Data Distribution Visualizations and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
+- **Data Distribution Visualizations, filter low abundant taxa and Transformations**: Visualizing the distribution of taxa across samples using various plots (e.g., bar plots, heatmaps). Transformations (e.g., log transformation) may be applied to stabilize variance and meet the assumptions of statistical tests.
 - **Diversity Metrics**: Calculating diversity metrics such as [alpha](https://docs.onecodex.com/en/articles/4136553-alpha-diversity) diversity (within-sample diversity) and [beta](https://www.statisticshowto.com/bray-curtis-dissimilarity/) diversity (between-sample diversity). These metrics provide insights into the complexity and variation of microbial communities.
 
 # Pipeline Summary 
 Analysis of taxonomic results:
 
-- merge results files 
+- Merge results files 
 
 - Read counts to frequencies 
 
-- Rarefaction curves 
+- Filter low abundant bacteria 
 
 - Data distribution visualizations and transformations
 
 - Diversity metrics
 
-###  Getting ready:
-1. install dependencies 
+#### This pipeline provides the option to run all of these steps at one or multiple taxonomic ranks (species, genus, family, etc.).
 
+### USAGE:
+
+#### 1. Clone the Repository
+
+Using Git Bash/Terminal, run:
+```sh
+git clone https://github.com/AnitaMF/integrated_metagenomics_analysis.git
+```
+Alternatively, download the following files:
+
+1. **Requirements.txt** # Contains the necessary libraries to run the program.
+2. **functions.py** # Contains the functions used in the program.
+3. **taxonomicAnalysis.py** # The main script that runs the program.
+
+**Note**: To run this program, you will need breport files from the Bracken algorithm. Sample files are provided in the bracken_files folder for testing.
+
+#### 2. Ensure you are working from the folder of the cloned repository:
+
+```sh
+cd integrated_metagenomics_analysis
+```
+#### 3. Install Dependencies
+
+Run:
 ```sh
 pip install -r requirements.txt
 ``` 
-2. Run tests with pytest: 
+#### 4. Run tests 
+
+To verify everything is set up correctly, run:
+
 ```sh
 pytest 
 ```
-3. Run program: 
-```sh
-python taxonomicAnalysis.py
+#### 5. Run program: 
+
+a. Get Help and Available Options
+
+To see how to correctly run the program and explore available options, run:
+
+```sh 
+python taxonomicAnalysis.py -h 
 ```
-**Work in progress**: Soon detailed instruction for each step will be added & appropiate code for each section of the pipeline 
+b. Test with Provided Files
+
+To test the program using the files provided in this repository, specifying the desired taxonomic rank(s) with the -r option, run:
+
+```sh
+python taxonomicAnalysis.py -path .\bracken_files [-r S,G]
+```
+
+c. Run the Program on Your Own Files
+
+To run the program on your own breport files, provide the path to the directory containing those files. Specify the desired taxonomic rank(s) with the -r option, run:
+
+Run: 
+```sh
+python taxonomicAnalysis.py -path .\PATH_TO_YOUR_BREPORT_FILES [-r S,G]
+```
+Replace PATH_TO_YOUR_BREPORT_FILES with the actual path to your breport files.
 
 
 # Instructions for up-stream steps: 
