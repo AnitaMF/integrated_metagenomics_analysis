@@ -55,11 +55,6 @@ def process_breport_files(bracken_files, selected_ranks, output_folder):
         big_dict[level][level_name].to_csv(output_file)
         print(f"Saved counts matrix for level {level} to {output_file}")
 
-    for level in selected_ranks:
-        level_name = f"{level}_raw"
-        print(f"Counts matrix for level {level}:")
-        print(big_dict[level][level_name].head())
-
 def list_csv_files(directory, suffix):
     return [f for f in os.listdir(directory) if f.endswith(suffix)]
 
@@ -74,9 +69,9 @@ def compute_relative_abundance(input_file, output_file):
 
 def load_relative_abundance(input_file):
     df = pd.read_csv(input_file, index_col=0)
-    return df
+    return df, input_file
 
-def filter_low_abundance_species(df, threshold=0.01):
+def filter_low_abundance_species(df, threshold=0.01, output_folder=None, input_file=None):
     zero_prop = (df == 0).mean(axis=1)
     df_filt = df.loc[zero_prop < 0.8]
     mean_NoZeros = pd.DataFrame()
@@ -86,8 +81,24 @@ def filter_low_abundance_species(df, threshold=0.01):
 
     df_filt = df_filt.loc[mean_NoZeros['rowMeans'] > threshold]
 
+    if output_folder and input_file:
+        output_file = os.path.join(output_folder, os.path.basename(input_file).replace('.csv', '_filtered.csv'))
+        df_filt.to_csv(output_file)
+        print(f'Filtered data saved to {output_file}')
+
+        df_log2 = np.log2(df_filt.replace(0, np.nan))
+        df_log2 = df_log2.fillna(0)
+       
+        output_file_log2 = os.path.join(output_folder, os.path.basename(input_file).replace('.csv', '_filteredAndLog2.csv'))
+        df_log2.to_csv(output_file_log2)
+        print(f'Filtered & log2 data saved to {output_file_log2}')
+
     print(f'Number of species/taxonomic units before filtering: {df.shape[0]}')
     print(f'Number of species/taxonomic units after filtering: {df_filt.shape[0]}')
+
+    mean_NoZeros_file = os.path.join(output_folder, 'mean_NoZeros.csv')
+    mean_NoZeros.to_csv(mean_NoZeros_file)
+    print(f'mean_NoZeros data saved to {mean_NoZeros_file}')
 
     return df_filt, mean_NoZeros
 
@@ -131,9 +142,9 @@ def generate_graphs(df, df_filt, mean_NoZeros, output_folder, rank):
     plt.savefig(hist_filt_filename)
     plt.close()
 
-    df_log2 = np.log2(df_filt)
-    df_log2 = df_log2.replace(-np.inf, 0)
-
+    df_log2 = np.log2(df_filt.replace(0, np.nan))
+    df_log2 = df_log2.fillna(0)
+       
     plt.figure(figsize=(8, 6))
     plt.hist(df_filt.values.flatten(), bins=30, alpha=0.5, label='Before log2')
     plt.hist(df_log2.values.flatten(), bins=30, alpha=0.5, label='After log2')
@@ -149,8 +160,12 @@ def generate_graphs(df, df_filt, mean_NoZeros, output_folder, rank):
 
     return df_log2
 
-def calculate_alpha_diversity(df):
+def calculate_alpha_diversity(df, rank, output_folder):
     alpha_diversity = pd.DataFrame(index=df.columns)
     alpha_diversity['shannon'] = df.apply(lambda x: entropy(x[x > 0]), axis=0)
     alpha_diversity['richness'] = (df > 0).sum(axis=0)
+
+    alpha_diversity_path = os.path.join(output_folder, f'{rank}_alpha_diversity.csv')
+    alpha_diversity.to_csv(alpha_diversity_path)
+    print(f"Alpha diversity measures for rank {rank} saved to {alpha_diversity_path}")
     return alpha_diversity

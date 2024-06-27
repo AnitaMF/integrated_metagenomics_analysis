@@ -6,7 +6,7 @@ This is a tool that integrates all steps required for taxonomic analysis of meta
 
 ##  Project Introduction
 
-[Metagenomics](https://en.wikipedia.org/wiki/Metagenomics) is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) and [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
+[Metagenomics](https://en.wikipedia.org/wiki/Metagenomics) is a powerful approach for studying the genetic material (DNA) recovered directly from environmental samples. Unlike traditional microbiology, which relies on culturing organisms in the lab, metagenomics allows researchers to analyze the entire community of microorganisms in a given environment. This approach provides insights into the [composition/taxonomy](https://www.lawinsider.com/dictionary/taxonomic-composition#:~:text=Taxonomic%20composition%20means%20the%20identity,or%20within%20a%20water%20body.) and [diversity](https://bio.libretexts.org/Bookshelves/Ecology/Biodiversity_(Bynum)/7%3A_Alpha_Beta_and_Gamma_Diversity) of microbial communities, which are crucial for understanding ecosystems, human health, agriculture, and biotechnology.
 
 However, the process of analyzing taxonomic data involves multiple complex and time-consuming steps and there is currently no standard protocol. **The Integrated Metagenomics Analysis Pipeline** is designed to streamline downstream analysis of taxonomy offering a solution for comprehensive metagenomic analysis. 
 
@@ -24,7 +24,7 @@ To generate metagenomic data:
 
 **Next-Generation Sequencing (NGS)** technologies enable high-throughput sequencing, allowing millions of DNA fragments to be sequenced simultaneously. This capability is essential for metagenomic studies, which aim to analyze the vast and diverse microbial populations in complex samples.
 
-![Workflow](workflow.png)
+![Workflow](Workflow.png)
 
 
 ### (2) Taxonomic Classification: What Microorganisms Are Present?
@@ -104,6 +104,8 @@ To verify everything is set up correctly, run:
 ```sh
 pytest 
 ```
+**Note**: For each function we will verify that the file is created and that the information inside is correct (and displayed). 
+
 #### 5. Run program: 
 
 a. Get Help and Available Options
@@ -113,6 +115,19 @@ To see how to correctly run the program and explore available options, run:
 ```sh 
 python taxonomicAnalysis.py -h 
 ```
+Usage: taxonomicAnalysis.py [-h] [-r RANKS] --path_bracken PATH_BRACKEN
+
+Process bracken files and calculate diversity metrics.
+
+options:
+  -h, --help            show this help message and exit
+  -r RANKS, --ranks RANKS
+                        Taxonomic ranks to process (e.g., S,G,F,O,C,P). Default is 'S'.
+                        Example: -r S,G will process Species and Genus levels.
+  --path_bracken PATH_BRACKEN, -path PATH_BRACKEN
+                        Path to folder containing bracken files to be processed
+
+
 b. Test with Provided Files
 
 To test the program using the files provided in this repository, specifying the desired taxonomic rank(s) with the -r option, run:
