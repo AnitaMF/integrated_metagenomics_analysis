@@ -85,7 +85,7 @@ Alternatively, download the following files:
 2. **functions.py** # Contains the functions used in the program.
 3. **taxonomicAnalysis.py** # The main script that runs the program.
 
-**Note**: To run this program, you will need breport files from the Bracken algorithm. Sample files are provided in the bracken_files folder for testing.
+**Note**: To run this program, you will need breport files from the Bracken algorithm. Example files are provided in the bracken_files folder for testing the program.
 
 #### 2. Ensure you are working from the folder of the cloned repository:
 
@@ -105,7 +105,7 @@ To verify everything is set up correctly, run:
 ```sh
 pytest 
 ```
-**Note**: For each function we will verify that the file is created and that the information inside is correct (and displayed). 
+**Note**: For each function pytest verifies that the file is created and that the information inside is correct (and displayed). 
 
 #### 5. Run program: 
 
@@ -116,20 +116,20 @@ To see how to correctly run the program and explore available options, run:
 ```sh 
 python taxonomicAnalysis.py -h 
 ```
-Usage: taxonomicAnalysis.py [-h] [-r RANKS] --path_bracken PATH_BRACKEN
 
-Process bracken files and calculate diversity metrics.
+    Usage: taxonomicAnalysis.py [-h] [-r RANKS] --path_bracken PATH_BRACKEN
 
-options:
-  -h, --help            show this help message and exit
-  -r RANKS, --ranks RANKS
-                        Taxonomic ranks to process (e.g., S,G,F,O,C,P). Default is 'S'.
-                        Example: -r S,G will process Species and Genus levels.
-  --path_bracken PATH_BRACKEN, -path PATH_BRACKEN
-                        Path to folder containing bracken files to be processed
+    Process bracken files and calculate diversity metrics.
 
+    options:
+      -h, --help            show this help message and exit
+      -r RANKS, --ranks RANKS
+                            Taxonomic ranks to process (e.g., S,G,F,O,C,P). Default is 'S'.
+                            Example: -r S,G will process Species and Genus levels.
+      --path_bracken PATH_BRACKEN, -path PATH_BRACKEN
+                            Path to folder containing bracken files to be processed
 
-b. Test with Provided Files
+b. Test pipeline with Provided Files
 
 To test the program using the files provided in this repository, specifying the desired taxonomic rank(s) with the -r option, run:
 
@@ -146,6 +146,7 @@ Run:
 python taxonomicAnalysis.py -path .\PATH_TO_YOUR_BREPORT_FILES [-r S,G]
 ```
 Replace PATH_TO_YOUR_BREPORT_FILES with the actual path to your breport files.
+
 
 
 # Instructions for up-stream steps: 
