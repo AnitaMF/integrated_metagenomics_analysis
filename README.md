@@ -70,6 +70,7 @@ Analysis of taxonomic results:
 
 #### This pipeline provides the option to run all of these steps at one or multiple taxonomic ranks (species, genus, family, etc.).
 
+#### After running this pipeline, all files & graphs created will be saved inside *output* folder
 ### USAGE:
 
 #### 1. Clone the Repository
