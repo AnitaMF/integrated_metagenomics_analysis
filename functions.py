@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import entropy
 
 def process_breport_files(bracken_files, selected_ranks, output_folder):
+    # Print the names of the files being processed
+    print("Processing the following bracken files:")
+    for file in bracken_files:
+        print(file)
+    
     big_dict = {}
     
     big_dict['b_report'] = [pd.read_csv(file, delimiter='\t') for file in bracken_files]
