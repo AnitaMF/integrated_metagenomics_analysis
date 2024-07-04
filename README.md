@@ -73,6 +73,8 @@ Analysis of taxonomic results:
 #### After running this pipeline, all files & graphs created will be saved inside *output* folder
 ## USAGE:
 
+**Note**: make sure you have python installed 
+
 #### 1. Clone the Repository
 
 Using Git Bash/Terminal, run:
