@@ -136,7 +136,7 @@ b. Test pipeline with Provided Files
 To test the program using the files provided in this repository, specifying the desired taxonomic rank(s) with the -r option, run:
 
 ```sh
-python taxonomicAnalysis.py -path .\bracken_files -r S,G
+python taxonomicAnalysis.py -path bracken_files -r S,G
 ```
 
 c. Run the Program on Your Own Files
@@ -145,7 +145,7 @@ To run the program on your own breport files, provide the path to the directory 
 
 Run: 
 ```sh
-python taxonomicAnalysis.py -path .\PATH_TO_YOUR_BREPORT_FILES [-r S,G]
+python taxonomicAnalysis.py -path PATH_TO_YOUR_BREPORT_FILES [-r S,G]
 ```
 Replace PATH_TO_YOUR_BREPORT_FILES with the actual path to your breport files.
 
